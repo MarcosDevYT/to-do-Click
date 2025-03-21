@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-noto-sans-display: "Noto Sans Display", sans-serif;
+  --font-inter: "Inter", sans-serif;
+
+  --background: hsl(252, 30%, 15%);
+  --second-background: hsl(252, 30%, 20%);
+  --sidebar-background: hsl(252, 30%, 23%);
+  --gray-color-bg: hsl(253, 15%, 24%);
+  --gray-color-text: hsl(259, 10%, 39%);
+  --main-color: #6c63ff;
+  --text-color: hsl(240, 8%, 85%);
+  --title-color: hsl(240, 8%, 95%);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-color);
+  height: 100vh;
+}
+
+input,
+textarea,
+button {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--main-color);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.tasks-container {
+  overflow-y: auto;
+}
+
+.tasks-container::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.input-control {
+  position: relative;
+  margin: 1rem 0;
+  font-weight: 500;
+
+  label {
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    font-size: 1rem;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+
+    resize: none;
+    background-color: var(--background);
+  }
+}
+
+.toggler {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  gap: 5rem;
+
+  label {
+    flex: 1;
+  }
+
+  input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: transparent;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
