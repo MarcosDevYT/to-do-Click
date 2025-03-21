@@ -3,7 +3,7 @@
 import Button from "@/components/ui/Button";
 import { useGlobalState } from "@/utils/globalProvider";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Plus } from "lucide-react";
 
@@ -40,48 +40,58 @@ const TaskEdit = () => {
     }
   }, [taskContent]);
 
-  const handleChange = (name: string) => (e: any) => {
-    switch (name) {
-      case "title":
-        setTitle(e.target.value);
-        break;
-      case "description":
-        setDescription(e.target.value);
-        break;
-      case "date":
-        setDate(e.target.value);
-        break;
-      case "completed":
-        setCompleted(e.target.checked);
-        break;
-      case "important":
-        setImportant(e.target.checked);
-        break;
-      default:
-        break;
-    }
-  };
+  const handleChange =
+    (name: string) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      // Si es un checkbox, forzamos el tipado a HTMLInputElement
+      if (name === "completed" || name === "important") {
+        const target = e.target as HTMLInputElement;
+        if (target.type === "checkbox") {
+          if (name === "completed") {
+            setCompleted(target.checked);
+          } else if (name === "important") {
+            setImportant(target.checked);
+          }
+        }
+      } else {
+        // Para inputs de texto o textarea
+        const { value } = e.target;
+        switch (name) {
+          case "title":
+            setTitle(value);
+            break;
+          case "description":
+            setDescription(value);
+            break;
+          case "date":
+            setDate(value);
+            break;
+          default:
+            break;
+        }
+      }
+    };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     const task = {
-      id: taskId, // Incluye el ID para que el backend sepa qué tarea actualizar
+      id: taskId,
       title,
       description,
       date,
-      isCompleted: completed, // Nota: Cambia "completed" por "isCompleted"
-      isImportant: important, // Nota: Cambia "important" por "isImportant"
+      isCompleted: completed,
+      isImportant: important,
     };
 
     try {
-      const res = await axios.put("/api/tasks", task); // Cambia de POST a PUT
+      const res = await axios.put("/api/tasks", task);
 
       if (res.data.error) {
         toast.error(res.data.error);
       } else {
-        updateTask(); // Actualiza las tareas en tu estado global
-        closeModalEdit(); // Cierra el modal
+        updateTask();
+        closeModalEdit();
         toast.success("Task updated successfully.");
       }
     } catch (error) {

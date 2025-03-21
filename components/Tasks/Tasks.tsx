@@ -16,7 +16,7 @@ interface Task {
   date: string;
   isCompleted: boolean;
   isImportant: boolean;
-  createdAt?: string; // Opcional, si lo necesitas
+  createdAt?: string;
 }
 
 interface Props {
