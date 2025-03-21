@@ -14,7 +14,7 @@ const noto = localFont({
 });
 
 const inter = localFont({
-  src: "./fonts/inter.ttf",
+  src: "./fonts/Inter.ttf",
   variable: "--font-inter",
   weight: "100 900",
 });
