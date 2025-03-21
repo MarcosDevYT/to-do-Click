@@ -2,11 +2,11 @@ import prisma from "@/utils/connect";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request, { params }: { params: { id: string; }}) {
+// Aquí cambiamos la firma para aceptar el tipo correctamente
+export async function DELETE(req: Request, context: { params: { id: string } }) {
   try {
     const { userId } = await auth();
-
-    const { id } = params;
+    const { id } = context.params; 
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized", status: 401 });
@@ -16,7 +16,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string; }
       where: {
         id,
       },
-    })
+    });
 
     console.log("TASK DELETED", task);
     return NextResponse.json(task);
